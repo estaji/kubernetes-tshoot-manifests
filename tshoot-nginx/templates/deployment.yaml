@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.app.deployment.replicas }}
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: my-pod
+          image: nginx:{{ .Values.app.deployment.image_tag }}
+          ports:
+            - containerPort: {{ .Values.app.deployment.port }}
+          resources:
+            requests:
+              cpu: {{ .Values.app.deployment.resources.requests.cpu }}
+              memory: {{ .Values.app.deployment.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.app.deployment.resources.limits.cpu }}
+              memory: {{ .Values.app.deployment.resources.limits.memory }}

@@ -1,0 +1,7 @@
+Welcome to {{ .Chart.Name }}.
+
+{{ .Chart.Name }} application is deployed with release name = {{ .Release.Name }} in {{ .Release.Namespace }} namespace.
+
+This application is installed based on a helm chart by Omid Estaji <estaji.work@gmail.com> .
+
+Enjoy using {{ .Chart.Name }} app.

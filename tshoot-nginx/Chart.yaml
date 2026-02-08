@@ -1,0 +1,6 @@
+apiVersion: v2
+name: tshoot-nginx
+version: 0.1.0
+appVersion: "1.1"
+type: application
+description: Nginx application helm chart

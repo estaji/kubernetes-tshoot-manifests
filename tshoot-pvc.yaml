@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: omid-test-volume-pvc
+  namespace: omid
+  labels:
+    usage: test
+spec:
+  storageClassName: longhorn
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 4G
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: omid-test-longhorn
+  namespace: omid
+spec:
+  volumes:
+    - name: omid-test-volume
+      persistentVolumeClaim:
+        claimName: omid-test-volume-pvc
+  containers:
+  - name: omid-test-longhorn
+    image: nicolaka/netshoot
+    command: ["/bin/bash"]
+    args: ["-c", "while true; do ping localhost; sleep 60;done"]
+    resources:
+      requests:
+        cpu: "0.5"
+        memory: "500Mi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
+    volumeMounts:
+      - name: omid-test-volume
+        mountPath: /volume
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: omid-test-longhorn-2
+  namespace: omid
+spec:
+  volumes:
+    - name: omid-test-volume
+      persistentVolumeClaim:
+        claimName: omid-test-volume-pvc
+  containers:
+  - name: omid-test-longhorn
+    image: nicolaka/netshoot
+    command: ["/bin/bash"]
+    args: ["-c", "while true; do ping localhost; sleep 60;done"]
+    resources:
+      requests:
+        cpu: "0.5"
+        memory: "500Mi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
+    volumeMounts:
+      - name: omid-test-volume
+        mountPath: /volume

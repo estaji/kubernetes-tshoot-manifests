@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-checker
+  namespace: app-sandbox
+spec:
+  volumes:
+    - name: my-volume
+      persistentVolumeClaim:
+        claimName: app-app-pvc
+  containers:
+  - name: omid-test
+    image: nicolaka/netshoot
+    volumeMounts:
+      - name: my-volume
+        mountPath: /mnt
+    command: ["/bin/bash"]
+    args: ["-c", "while true; do ping localhost; sleep 60;done"]
+    resources:
+      requests:
+        cpu: "0.5"
+        memory: "500Mi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
+
